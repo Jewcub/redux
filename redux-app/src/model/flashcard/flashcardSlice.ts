@@ -1,10 +1,15 @@
 import { ICard } from './types'
+import { IDeck } from '../deck/types'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState, AppThunk } from '../../app/store'
 
-export interface FlashCardState extends ICard { }
+import defaultDeck from '../deck/default'
 
-const initialState: FlashCardState = { frontText: 'initial front', backText: 'initial back' }
+export interface FlashCardState {
+  decks: IDeck[]
+}
+
+const initialState: FlashCardState = { decks: [defaultDeck] }
 
 //actions/thunk
 

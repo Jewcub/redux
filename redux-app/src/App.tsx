@@ -1,33 +1,53 @@
 import React from 'react';
-
 import "@fontsource/roboto"
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Box, Typography } from '@material-ui/core';
-import { Flashcard } from './features/flashcard/Flashcard'
+
+import Deck from './components/deck/Deck'
+import Editor from './components/editor/Editor'
+
+import { IDeck } from './model/deck/types'
+import defaultDeck from './model/deck/default'
 import './App.css';
 
-const headerStyle = makeStyles(theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
-    background: theme.palette.primary.dark
+    background: theme.palette.primary.dark,
+    padding: 15
   },
+  deckTitle: {
+    paddingTop: 15,
+    textDecoration: 'underline',
+  }
 }))
 
+
+const decks: IDeck[] = [defaultDeck]
+
+
 function App() {
-  const headerClass = headerStyle()
+  const classes = useStyles()
   return (
     <div className="App">
       <Box >
-        <Box className={headerClass.root} bgcolor="primary" width="100" display="flex"
-          justifyContent="center" >
-          <Typography color="textSecondary" variant="h1" >
+        <Box className={classes.root} bgcolor="primary" width="100"  >
+          <Typography color="textSecondary" variant="h5" >
             Flashcards
           </Typography>
         </Box>
 
-        <Container maxWidth="sm">
+        <Container maxWidth="sm" >
+          <Box display="flex" flexDirection="column" justifyContent="center" textAlign="center">
+            <Editor></Editor>
+            {
+              decks.map((deck) =>
+                <Box display="flex" flexDirection="column" justifyContent="center" textAlign="center">
+                  <Typography className={classes.deckTitle} variant="h4">{deck.title}</Typography>
+                  <Deck deck={deck} />
+                </Box>
 
-          <Flashcard />
-
+              )
+            }</Box>
         </Container>
       </Box>
 

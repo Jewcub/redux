@@ -6,6 +6,11 @@ import {
 	Typography,
 } from '@material-ui/core';
 import React, { ChangeEventHandler, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { ulid } from 'ulid';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { addFlashcard } from '../../model/flashcard/flashcardSlice';
+import { ICard, EditCardPayload } from '../../model/flashcard/types';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -26,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 interface Props {}
 const Editor = (props: Props) => {
+	const dispatch = useAppDispatch();
+	const defaultDeck = useAppSelector((state) => state.flashcard.decks[0]);
+
 	const classes = useStyles();
 	const FRONT_TEXT = 'frontText';
 	const BACK_TEXT = 'backText';
@@ -48,7 +56,12 @@ const Editor = (props: Props) => {
 	};
 	const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		alert(`submitting - front: ${frontText} and back: ${backText}`);
+		dispatch(
+			addFlashcard({
+				card: { frontText, backText, id: ulid() },
+				deckTitle: defaultDeck.title,
+			})
+		);
 	};
 	return (
 		<div>

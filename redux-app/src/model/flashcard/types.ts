@@ -3,3 +3,7 @@ export interface ICard {
   frontText: string;
   backText: string;
 }
+export interface EditCardPayload {
+  card: ICard;
+  deckTitle: string
+}
